@@ -8,8 +8,9 @@ import {
 } from 'react-native';
 import Http from '../../lib/http';
 import CoinsItem from './CoinsItem';
+import colors from '../../res/colors';
 
-const CoinsScreen = ({ navigation }) => {
+const CoinsScreen = () => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,20 +26,15 @@ const CoinsScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const handlePress = () => {
-    navigation.navigate('CoinDetail');
-  };
-
   const keyExtractor = (item) => item.id.toString();
 
-  const renderItem = ({ item }) => (
-    <CoinsItem coin={item} handlePress={handlePress} />
-  );
+  const renderItem = ({ item }) => <CoinsItem coin={item} />;
 
   return (
-    <View>
-      <Text>Coins Screen</Text>
-      {loading && <ActivityIndicator size="large" style={styles.loader} />}
+    <View style={styles.container}>
+      {loading && (
+        <ActivityIndicator size="large" color="#fff" style={styles.loader} />
+      )}
       <FlatList
         data={coins}
         keyExtractor={keyExtractor}
@@ -51,6 +47,10 @@ const CoinsScreen = ({ navigation }) => {
 export default CoinsScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.charade,
+    flex: 1,
+  },
   loader: {
     marginTop: 60,
   },
