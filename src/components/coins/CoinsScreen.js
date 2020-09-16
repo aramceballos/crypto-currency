@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import Http from '../../lib/http';
 import CoinsItem from './CoinsItem';
 import colors from '../../res/colors';
 
-const CoinsScreen = () => {
+const CoinsScreen = ({ navigation }) => {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,9 +20,15 @@ const CoinsScreen = () => {
     })();
   }, []);
 
+  const handlePress = (coin) => {
+    navigation.navigate('CoinDetail', { coin });
+  };
+
   const keyExtractor = (item) => item.id.toString();
 
-  const renderItem = ({ item }) => <CoinsItem coin={item} />;
+  const renderItem = ({ item }) => (
+    <CoinsItem coin={item} onPress={() => handlePress(item)} />
+  );
 
   return (
     <View style={styles.container}>

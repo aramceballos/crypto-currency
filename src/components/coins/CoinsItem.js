@@ -1,8 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Platform,
+  Pressable,
+} from 'react-native';
 import colors from '../../res/colors';
 
-const CoinsItem = ({ coin }) => {
+const CoinsItem = ({ coin, onPress }) => {
   const getImgArrow = () => {
     if (coin.percent_change_1h > 0) {
       return require('../../assets/arrow_up.png');
@@ -12,7 +19,7 @@ const CoinsItem = ({ coin }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.symbolText}>{coin.symbol}</Text>
         <Text style={styles.nameText}>{coin.name}</Text>
@@ -22,7 +29,7 @@ const CoinsItem = ({ coin }) => {
         <Text style={styles.percentText}>{coin.percent_change_1h}%</Text>
         <Image source={getImgArrow()} style={styles.imgArrow} />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -36,6 +43,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.zircon,
     borderBottomWidth: 1,
     marginLeft: Platform.OS === 'ios' ? 16 : 0,
+    paddingLeft: Platform.OS === 'ios' ? 0 : 16,
   },
   row: {
     flexDirection: 'row',
