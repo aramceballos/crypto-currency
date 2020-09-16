@@ -51,7 +51,7 @@ class Storage {
 
       return true;
     } catch (error) {
-      console.log('store remove err', err);
+      console.log('store remove err', error);
 
       return false;
     }
