@@ -6,7 +6,7 @@ const CoinMarketItem = ({ market }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.nameText}>{market.name}</Text>
-      <Text style={styles.priceText}>{market.price_usd}</Text>
+      <Text style={styles.priceText}>${market.price_usd}</Text>
     </View>
   );
 };

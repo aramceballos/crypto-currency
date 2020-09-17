@@ -7,6 +7,7 @@ import {
   SectionList,
   Pressable,
   FlatList,
+  Alert,
 } from 'react-native';
 import Http from '../../lib/http';
 import colors from '../../res/colors';
@@ -28,12 +29,14 @@ const CoinDetailScreen = ({ navigation, route }) => {
   }, []);
 
   const getFavorite = async () => {
-    const key = `favorite-${coin.id}`;
-    const favoriteStr = await Storage.instance.get(key);
+    try {
+      const key = `favorite-${coin.id}`;
+      const favoriteStr = await Storage.instance.get(key);
 
-    if (favoriteStr) {
-      setIsFavorite(true);
-    } else {
+      if (favoriteStr !== null) {
+        setIsFavorite(true);
+      }
+    } catch (error) {
       setIsFavorite(false);
     }
   };
@@ -57,14 +60,27 @@ const CoinDetailScreen = ({ navigation, route }) => {
     }
   };
 
-  const removeFavorite = async () => {
-    const key = `favorite-${coin.id}`;
+  const removeFavorite = () => {
+    Alert.alert('Remove favorite', 'Are you sure?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Remove',
+        onPress: async () => {
+          const key = `favorite-${coin.id}`;
 
-    const removed = await Storage.instance.remove(key);
+          const removed = await Storage.instance.remove(key);
 
-    if (removed) {
-      setIsFavorite(false);
-    }
+          if (removed) {
+            setIsFavorite(false);
+          }
+        },
+        style: 'destructive',
+      },
+    ]);
   };
 
   const getCoinIcon = (coinNameStr) => {
